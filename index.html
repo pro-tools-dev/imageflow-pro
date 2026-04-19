@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ImageFlow Pro - Batch Image Processor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .drag-area {
+      border: 3px dashed #3b82f6;
+      transition: all 0.3s ease;
+    }
+    
+    .drag-area.active {
+      border-color: #10b981;
+      background-color: rgba(16, 185, 129, 0.05);
+    }
+    
+    .progress-bar {
+      transition: width 0.3s ease;
+    }
+    
+    .tooltip {
+      position: relative;
+    }
+    
+    .tooltip-text {
+      visibility: hidden;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+    
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+    }
+    
+    .donation-badge {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-4">
+          <div class="flex items-center space-x-3">
+            <div class="bg-blue-500 text-white p-2 rounded-lg">
+              <i class="fas fa-image text-xl"></i>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">ImageFlow Pro</h1>
+              <p class="text-sm text-gray-500">Batch Image Processing Tool</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <!-- Donation Button -->
+            <a href="https://buymeacoffee.com/jieyangjunq" 
+               target="_blank"
+               class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium flex items-center space-x-2 donation-badge">
+              <i class="fas fa-coffee"></i>
+              <span>Support Development</span>
+            </a>
+            
+            <!-- Settings Button -->
+            <button id="settingsBtn" class="p-2 text-gray-500 hover:text-gray-700">
+              <i class="fas fa-cog text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Panel: File Upload -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-xl shadow-sm border p-6">
+            <h2 class="text-xl font-semibold mb-4">Upload Images</h2>
+            
+            <!-- Drag & Drop Area -->
+            <div id="dragArea" class="drag-area rounded-xl p-8 text-center cursor-pointer mb-6">
+              <div class="mb-4">
+                <i class="fas fa-cloud-upload-alt text-5xl text-blue-400"></i>
+              </div>
+              <h3 class="text-lg font-medium mb-2">Drag & Drop Images Here</h3>
+              <p class="text-gray-500 mb-4">or click to browse files</p>
+              <button id="browseBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium">
+                Browse Files
+              </button>
+              <p class="text-sm text-gray-400 mt-4">Supports JPG, PNG, WEBP, GIF</p>
+            </div>
+            
+            <!-- Selected Files -->
+            <div id="fileList" class="mb-6">
+              <h3 class="font-medium mb-2">Selected Files (0)</h3>
+              <div id="filesContainer" class="border rounded-lg p-4 min-h-[100px]">
+                <p class="text-gray-400 text-center py-8">No files selected</p>
+              </div>
+            </div>
+            
+            <!-- Output Directory -->
+            <div class="mb-6">
+              <h3 class="font-medium mb-2">Output Directory</h3>
+              <div class="flex space-x-2">
+                <input type="text" id="outputDir" 
+                       class="flex-grow border rounded-lg px-4 py-2" 
+                       placeholder="Select output directory..." 
+                       readonly>
+                <button id="selectOutputBtn" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
+                  Browse
+                </button>
+              </div>
+            </div>
+            
+            <!-- Process Button -->
+            <button id="processBtn" 
+                    class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium text-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+              <i class="fas fa-play"></i>
+              <span>Process Images</span>
+            </button>
+          </div>
+          
+          <!-- Progress Section -->
+          <div id="progressSection" class="bg-white rounded-xl shadow-sm border p-6 mt-6 hidden">
+            <h2 class="text-xl font-semibold mb-4">Processing Progress</h2>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="font-medium">Overall Progress</span>
+                  <span id="progressPercent">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                  <div id="progressBar" class="bg-green-500 h-2.5 rounded-full progress-bar" style="width: 0%"></div>
+                </div>
+              </div>
+              
+              <div id="currentFile" class="text-sm text-gray-600">
+                Waiting to start...
+              </div>
+              
+              <div id="results" class="space-y-2">
+                <!-- Results will be added here -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Panel: Processing Options -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-sm border p-6 sticky top-8">
+            <h2 class="text-xl font-semibold mb-6">Processing Options</h2>
+            
+            <!-- Format Conversion -->
+            <div class="mb-6">
+              <h3 class="font-medium mb-3 flex items-center">
+                <i class="fas fa-exchange-alt text-blue-500 mr-2"></i>
+                Format Conversion
+              </h3>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input type="radio" name="format" value="original" checked class="mr-2">
+                  <span>Keep Original Format</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="format" value="jpg" class="mr-2">
+                  <span>Convert to JPG</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="format" value="png" class="mr-2">
+                  <span>Convert to PNG</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" name="format" value="webp" class="mr-2">
+                  <span>Convert to WEBP</span>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Quality/Compression -->
+            <div class="mb-6">
+              <h3 class="font-medium mb-3 flex items-center">
+                <i class="fas fa-compress text-green-500 mr-2"></i>
+                Compression
+              </h3>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span>Quality</span>
+                    <span id="qualityValue">80%</span>
+                  </div>
+                  <input type="range" id="qualitySlider" min="1" max="100" value="80" class="w-full">
+                </div>
+                
+                <div>
+                  <label class="flex items-center">
+                    <input type="checkbox" id="lossless" class="mr-2">
+                    <span>Lossless Compression (PNG only)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Resize -->
+            <div class="mb-6">
+              <h3 class="font-medium mb-3 flex items-center">
+                <i class="fas fa-expand-alt text-purple-500 mr-2"></i>
+                Resize
+              </h3>
+              <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-sm mb-1">Width (px)</label>
+                    <input type="number" id="width" placeholder="Auto" class="w-full border rounded-lg px-3 py-2">
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-1">Height (px)</label>
+                    <input type="number" id="height" placeholder="Auto" class="w-full border rounded-lg px-3 py-2">
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm mb-1">Resize Mode</label>
+                  <select id="resizeMode" class="w-full border rounded-lg px-3 py-2">
+                    <option value="contain">Contain (fit within)</option>
+                    <option value="cover">Cover (fill area)</option>
+                    <option value="fill">Fill (stretch)</option>
+                  </select>
+                </div>
+                
+                <label class="flex items-center">
+                  <input type="checkbox" id="maintainAspect" checked class="mr-2">
+                  <span>Maintain Aspect Ratio</span>
+                </label>
+              </div>
+            </div>
+            
+            <!-- File Naming -->
+            <div class="mb-6">
+              <h3 class="font-medium mb-3 flex items-center">
+                <i class="fas fa-file-signature text-yellow-500 mr-2"></i>
+                File Naming
+              </h3>
+              <div>
+                <label class="block text-sm mb-1">Output Suffix</label>
+                <input type="text" id="suffix" value="processed" class="w-full border rounded-lg px-3 py-2" placeholder="e.g., processed, optimized">
+              </div>
+            </div>
+            
+            <!-- Donation Reminder -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-8">
+              <div class="flex items-start">
+                <i class="fas fa-heart text-yellow-500 text-xl mr-3 mt-1"></i>
+                <div>
+                  <h4 class="font-medium text-yellow-800">Support Development</h4>
+                  <p class="text-yellow-700 text-sm mt-1">
+                    This tool is free to use. If you find it helpful, please consider supporting my work as a student developer.
+                  </p>
+                  <a href="https://buymeacoffee.com/jieyangjunq" 
+                     target="_blank"
+                     class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                    <i class="fas fa-coffee mr-1"></i> Buy Me a Coffee
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <div class="flex items-center space-x-2">
+              <div class="bg-blue-500 text-white p-1 rounded">
+                <i class="fas fa-image"></i>
+              </div>
+              <span class="font-medium">ImageFlow Pro v0.1.0</span>
+            </div>
+            <p class="text-gray-500 text-sm mt-1">© 2024 Student Developer Tools. All rights reserved.</p>
+          </div>
+          
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-500 hover:text-gray-700">Privacy Policy</a>
+            <a href="#" class="text-gray-500 hover:text-gray-700">Terms of Service</a>
+            <a href="mailto:jieyangjunq@gmail.com" class="text-gray-500 hover:text-gray-700">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // JavaScript will be loaded from renderer.js
+  </script>
+  <script src="renderer.js"></script>
+</body>
+</html>
