@@ -1,0 +1,7 @@
+# robots.txt for ImageFlow Pro
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+
+Sitemap: https://pro-tools-dev.github.io/imageflow-pro/sitemap.xml
