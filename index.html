@@ -3,369 +3,288 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Critical SEO Meta Tags -->
-  <title>ImageFlow Pro - AI-Powered Batch Image Processing & Optimization Tool</title>
-  <meta name="description" content="ImageFlow Pro: Advanced AI-powered image processing, optimization, and workflow automation tool. Batch process images, AI enhancement, format conversion, and smart compression.">
-  <meta name="keywords" content="image processing, AI image optimization, batch image editor, image compression, image converter, AI photo enhancement, image workflow automation">
+  <title>ImageFlow Pro - Batch Image Processing Tool</title>
+  <meta name="description" content="Free, fast, and secure batch image processing tool. Compress, resize, and convert JPG, PNG, WEBP images locally. No upload required, 100% private.">
+  <meta name="keywords" content="image processing, batch image converter, image compressor, resize images, privacy, free image tool">
   <meta name="author" content="Pro Tools Dev">
   <meta name="robots" content="index, follow">
   
-  <!-- Open Graph Meta Tags for Social Sharing -->
-  <meta property="og:title" content="ImageFlow Pro - AI-Powered Image Processing Tool">
-  <meta property="og:description" content="Advanced AI-powered image processing, optimization, and workflow automation tool.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="ImageFlow Pro - Batch Image Processing Tool">
+  <meta property="og:description" content="Free, fast, and secure batch image processing. Compress, resize, convert images locally. 100% private.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pro-tools-dev.github.io/imageflow-pro/">
-  <meta property="og:image" content="https://pro-tools-dev.github.io/imageflow-pro/images/og-image.png">
   
-  <!-- Twitter Card Meta Tags -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ImageFlow Pro - AI Image Processing Tool">
-  <meta name="twitter:description" content="Batch process images with AI enhancement, optimization, and automation.">
-  <meta name="twitter:image" content="https://pro-tools-dev.github.io/imageflow-pro/images/twitter-image.png">
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://pro-tools-dev.github.io/imageflow-pro/">
-  
-  <!-- Structured Data for Google -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "ImageFlow Pro",
-    "description": "AI-powered image processing and optimization tool",
-    "url": "https://pro-tools-dev.github.io/imageflow-pro/",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Organization",
-      "name": "Pro Tools Dev"
-    }
-  }
-  </script>
-  
+  <meta name="twitter:title" content="ImageFlow Pro - Batch Image Processing Tool">
+  <meta name="twitter:description" content="Free, fast, and secure batch image processing. Compress, resize, convert images locally. 100% private.">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    
-    * {
-      font-family: 'Inter', sans-serif;
+    * { font-family: 'Inter', sans-serif; }
+    .drag-area { border: 3px dashed #3b82f6; transition: all 0.3s ease; }
+    .drag-area.active { border-color: #10b981; background: rgba(16, 185, 129, 0.05); }
+    .tooltip { position: relative; }
+    .tooltip .tooltip-text {
+      visibility: hidden; opacity: 0; transition: opacity 0.3s;
+      position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+      background: #1f2937; color: white; padding: 4px 8px; border-radius: 4px;
+      font-size: 12px; white-space: nowrap;
     }
-    
-    .drag-area {
-      border: 3px dashed #3b82f6;
-      transition: all 0.3s ease;
-    }
-    
-    .drag-area.active {
-      border-color: #10b981;
-      background-color: rgba(16, 185, 129, 0.05);
-    }
-    
-    .progress-bar {
-      transition: width 0.3s ease;
-    }
-    
-    .tooltip {
-      position: relative;
-    }
-    
-    .tooltip-text {
-      visibility: hidden;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #333;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 4px;
-      white-space: nowrap;
-      font-size: 12px;
-    }
-    
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-    }
-    
+    .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
     .donation-badge {
-      animation: pulse 2s infinite;
+      background: linear-gradient(135deg, #ffdd57, #f59e0b);
+      color: #1f2937; padding: 8px 16px; border-radius: 50px;
+      font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;
     }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <div class="min-h-screen">
+<body class="bg-gray-50">
+  <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
     <!-- Header -->
-    <header class="bg-white shadow-sm border-b">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-4">
-          <div class="flex items-center space-x-3">
-            <div class="bg-blue-500 text-white p-2 rounded-lg">
-              <i class="fas fa-image text-xl"></i>
-            </div>
-            <div>
-              <h1 class="text-2xl font-bold text-gray-900">ImageFlow Pro</h1>
-              <p class="text-sm text-gray-500">Batch Image Processing Tool</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center space-x-4">
-            <!-- Donation Button -->
-            <a href="https://buymeacoffee.com/jieyangjunq" 
-               target="_blank"
-               class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium flex items-center space-x-2 donation-badge">
-              <i class="fas fa-coffee"></i>
-              <span>Support Development</span>
-            </a>
-            
-            <!-- Settings Button -->
-            <button id="settingsBtn" class="p-2 text-gray-500 hover:text-gray-700">
-              <i class="fas fa-cog text-xl"></i>
-            </button>
-          </div>
+    <header class="text-center mb-8">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="bg-blue-500 text-white p-4 rounded-2xl shadow-lg">
+          <i class="fas fa-images text-3xl"></i>
         </div>
+        <div class="text-left">
+          <h1 class="text-3xl font-bold text-gray-800">ImageFlow Pro</h1>
+          <p class="text-gray-500 text-sm">Batch Image Processing Tool</p>
+        </div>
+      </div>
+      <p class="text-gray-600 max-w-lg mx-auto">Drag and drop your images to compress, resize, and convert. All processing is done locally in your browser. <strong>Your images never leave your device.</strong></p>
+      
+      <!-- Support Badge -->
+      <div class="mt-4">
+        <a href="https://buymeacoffee.com/jieyangjunq" target="_blank" rel="noopener noreferrer" class="donation-badge shadow-md hover:shadow-lg transition-all">
+          <i class="fas fa-mug-hot"></i>
+          Support the Project
+        </a>
       </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Left Panel: File Upload -->
-        <div class="lg:col-span-2">
-          <div class="bg-white rounded-xl shadow-sm border p-6">
-            <h2 class="text-xl font-semibold mb-4">Upload Images</h2>
-            
-            <!-- Drag & Drop Area -->
-            <div id="dragArea" class="drag-area rounded-xl p-8 text-center cursor-pointer mb-6">
-              <div class="mb-4">
-                <i class="fas fa-cloud-upload-alt text-5xl text-blue-400"></i>
-              </div>
-              <h3 class="text-lg font-medium mb-2">Drag & Drop Images Here</h3>
-              <p class="text-gray-500 mb-4">or click to browse files</p>
-              <button id="browseBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium">
-                Browse Files
-              </button>
-              <p class="text-sm text-gray-400 mt-4">Supports JPG, PNG, WEBP, GIF</p>
-            </div>
-            
-            <!-- Selected Files -->
-            <div id="fileList" class="mb-6">
-              <h3 class="font-medium mb-2">Selected Files (0)</h3>
-              <div id="filesContainer" class="border rounded-lg p-4 min-h-[100px]">
-                <p class="text-gray-400 text-center py-8">No files selected</p>
-              </div>
-            </div>
-            
-            <!-- Output Directory -->
-            <div class="mb-6">
-              <h3 class="font-medium mb-2">Output Directory</h3>
-              <div class="flex space-x-2">
-                <input type="text" id="outputDir" 
-                       class="flex-grow border rounded-lg px-4 py-2" 
-                       placeholder="Select output directory..." 
-                       readonly>
-                <button id="selectOutputBtn" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg">
-                  Browse
-                </button>
-              </div>
-            </div>
-            
-            <!-- Process Button -->
-            <button id="processBtn" 
-                    class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium text-lg flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
-              <i class="fas fa-play"></i>
-              <span>Process Images</span>
-            </button>
-          </div>
-          
-          <!-- Progress Section -->
-          <div id="progressSection" class="bg-white rounded-xl shadow-sm border p-6 mt-6 hidden">
-            <h2 class="text-xl font-semibold mb-4">Processing Progress</h2>
-            <div class="space-y-4">
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium">Overall Progress</span>
-                  <span id="progressPercent">0%</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                  <div id="progressBar" class="bg-green-500 h-2.5 rounded-full progress-bar" style="width: 0%"></div>
-                </div>
-              </div>
-              
-              <div id="currentFile" class="text-sm text-gray-600">
-                Waiting to start...
-              </div>
-              
-              <div id="results" class="space-y-2">
-                <!-- Results will be added here -->
-              </div>
-            </div>
-          </div>
+    <!-- Upload Area -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+      <div id="dropZone" class="drag-area rounded-xl p-8 text-center cursor-pointer hover:bg-blue-50 transition-colors">
+        <i class="fas fa-cloud-upload-alt text-5xl text-blue-400 mb-4"></i>
+        <p class="text-lg font-medium text-gray-700">Drop images here</p>
+        <p class="text-sm text-gray-400 mt-1">or click to browse</p>
+        <p class="text-xs text-gray-400 mt-2">Supports: JPG, PNG, WEBP, GIF, BMP</p>
+        <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6 hidden" id="controls">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Processing Options</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Format -->
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">Output Format</label>
+          <select id="format" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-400 outline-none">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="webp" selected>WebP</option>
+          </select>
         </div>
-        
-        <!-- Right Panel: Processing Options -->
-        <div class="lg:col-span-1">
-          <div class="bg-white rounded-xl shadow-sm border p-6 sticky top-8">
-            <h2 class="text-xl font-semibold mb-6">Processing Options</h2>
-            
-            <!-- Format Conversion -->
-            <div class="mb-6">
-              <h3 class="font-medium mb-3 flex items-center">
-                <i class="fas fa-exchange-alt text-blue-500 mr-2"></i>
-                Format Conversion
-              </h3>
-              <div class="space-y-2">
-                <label class="flex items-center">
-                  <input type="radio" name="format" value="original" checked class="mr-2">
-                  <span>Keep Original Format</span>
-                </label>
-                <label class="flex items-center">
-                  <input type="radio" name="format" value="jpg" class="mr-2">
-                  <span>Convert to JPG</span>
-                </label>
-                <label class="flex items-center">
-                  <input type="radio" name="format" value="png" class="mr-2">
-                  <span>Convert to PNG</span>
-                </label>
-                <label class="flex items-center">
-                  <input type="radio" name="format" value="webp" class="mr-2">
-                  <span>Convert to WEBP</span>
-                </label>
-              </div>
-            </div>
-            
-            <!-- Quality/Compression -->
-            <div class="mb-6">
-              <h3 class="font-medium mb-3 flex items-center">
-                <i class="fas fa-compress text-green-500 mr-2"></i>
-                Compression
-              </h3>
-              <div class="space-y-4">
-                <div>
-                  <div class="flex justify-between mb-1">
-                    <span>Quality</span>
-                    <span id="qualityValue">80%</span>
-                  </div>
-                  <input type="range" id="qualitySlider" min="1" max="100" value="80" class="w-full">
-                </div>
-                
-                <div>
-                  <label class="flex items-center">
-                    <input type="checkbox" id="lossless" class="mr-2">
-                    <span>Lossless Compression (PNG only)</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Resize -->
-            <div class="mb-6">
-              <h3 class="font-medium mb-3 flex items-center">
-                <i class="fas fa-expand-alt text-purple-500 mr-2"></i>
-                Resize
-              </h3>
-              <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-3">
-                  <div>
-                    <label class="block text-sm mb-1">Width (px)</label>
-                    <input type="number" id="width" placeholder="Auto" class="w-full border rounded-lg px-3 py-2">
-                  </div>
-                  <div>
-                    <label class="block text-sm mb-1">Height (px)</label>
-                    <input type="number" id="height" placeholder="Auto" class="w-full border rounded-lg px-3 py-2">
-                  </div>
-                </div>
-                
-                <div>
-                  <label class="block text-sm mb-1">Resize Mode</label>
-                  <select id="resizeMode" class="w-full border rounded-lg px-3 py-2">
-                    <option value="contain">Contain (fit within)</option>
-                    <option value="cover">Cover (fill area)</option>
-                    <option value="fill">Fill (stretch)</option>
-                  </select>
-                </div>
-                
-                <label class="flex items-center">
-                  <input type="checkbox" id="maintainAspect" checked class="mr-2">
-                  <span>Maintain Aspect Ratio</span>
-                </label>
-              </div>
-            </div>
-            
-            <!-- File Naming -->
-            <div class="mb-6">
-              <h3 class="font-medium mb-3 flex items-center">
-                <i class="fas fa-file-signature text-yellow-500 mr-2"></i>
-                File Naming
-              </h3>
-              <div>
-                <label class="block text-sm mb-1">Output Suffix</label>
-                <input type="text" id="suffix" value="processed" class="w-full border rounded-lg px-3 py-2" placeholder="e.g., processed, optimized">
-              </div>
-            </div>
-            
-            <!-- Donation Reminder -->
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-8">
-              <div class="flex items-start">
-                <i class="fas fa-heart text-yellow-500 text-xl mr-3 mt-1"></i>
-                <div>
-                  <h4 class="font-medium text-yellow-800">Support Development</h4>
-                  <p class="text-yellow-700 text-sm mt-1">
-                    This tool is free to use. If you find it helpful, please consider supporting my work as a student developer.
-                  </p>
-                  <a href="https://buymeacoffee.com/jieyangjunq" 
-                     target="_blank"
-                     class="inline-block mt-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                    <i class="fas fa-coffee mr-1"></i> Buy Me a Coffee
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <!-- Quality -->
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">Quality</label>
+          <input type="range" id="quality" min="1" max="100" value="85" class="w-full">
+          <span id="qualityLabel" class="text-xs text-gray-400">85%</span>
+        </div>
+        <!-- Width -->
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">Width (px)</label>
+          <input type="number" id="width" placeholder="Auto" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-400 outline-none">
+        </div>
+        <!-- Height -->
+        <div>
+          <label class="block text-sm font-medium text-gray-600 mb-1">Height (px)</label>
+          <input type="number" id="height" placeholder="Auto" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-400 outline-none">
         </div>
       </div>
-    </main>
+    </div>
+
+    <!-- Progress -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6 hidden" id="progressSection">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-medium text-gray-600">Processing...</span>
+        <span class="text-sm text-gray-400" id="progressLabel">0%</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div class="progress-bar bg-blue-500 h-2 rounded-full transition-all" style="width: 0%"></div>
+      </div>
+      <p class="text-xs text-gray-400 mt-2 text-center" id="statusText">Ready</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-wrap gap-3 justify-center mb-6">
+      <button id="processBtn" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-600 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+        <i class="fas fa-play mr-2"></i>Process All
+      </button>
+      <button id="downloadAllBtn" class="bg-green-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-600 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+        <i class="fas fa-download mr-2"></i>Download All
+      </button>
+      <button id="clearBtn" class="bg-gray-200 text-gray-600 px-6 py-3 rounded-xl font-medium hover:bg-gray-300 transition-colors shadow-sm">
+        <i class="fas fa-trash mr-2"></i>Clear All
+      </button>
+    </div>
+
+    <!-- Preview Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="previewGrid"></div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t mt-12">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <div class="mb-4 md:mb-0">
-            <div class="flex items-center space-x-2">
-              <div class="bg-blue-500 text-white p-1 rounded">
-                <i class="fas fa-image"></i>
-              </div>
-              <span class="font-medium">ImageFlow Pro v0.1.0</span>
-            </div>
-            <p class="text-gray-500 text-sm mt-1">© 2024 Student Developer Tools. All rights reserved.</p>
-          </div>
-          
-          <div class="flex space-x-6">
-            <a href="#" class="text-gray-500 hover:text-gray-700">Privacy Policy</a>
-            <a href="#" class="text-gray-500 hover:text-gray-700">Terms of Service</a>
-            <a href="mailto:jieyangjunq@gmail.com" class="text-gray-500 hover:text-gray-700">Contact</a>
-          </div>
-        </div>
-      </div>
+    <footer class="text-center mt-12 text-gray-400 text-sm">
+      <p class="mb-2">All processing is done in your browser. Nothing is uploaded to any server.</p>
+      <p>
+        <a href="https://buymeacoffee.com/jieyangjunq" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600">Support on Buy Me a Coffee</a>
+      </p>
+      <p class="mt-2">&copy; 2026 Pro Tools Dev</p>
     </footer>
   </div>
 
   <script>
-    // JavaScript will be loaded from renderer.js
+    (function() {
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('fileInput');
+      const previewGrid = document.getElementById('previewGrid');
+      const controls = document.getElementById('controls');
+      const progressSection = document.getElementById('progressSection');
+      const progressBar = document.querySelector('.progress-bar');
+      const progressLabel = document.getElementById('progressLabel');
+      const statusText = document.getElementById('statusText');
+      const processBtn = document.getElementById('processBtn');
+      const downloadAllBtn = document.getElementById('downloadAllBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const formatSelect = document.getElementById('format');
+      const qualitySlider = document.getElementById('quality');
+      const qualityLabel = document.getElementById('qualityLabel');
+      const widthInput = document.getElementById('width');
+      const heightInput = document.getElementById('height');
+
+      let images = [];
+      let processedImages = [];
+
+      // Quality slider
+      qualitySlider.addEventListener('input', () => {
+        qualityLabel.textContent = qualitySlider.value + '%';
+      });
+
+      // Drag & Drop
+      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+      dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('active'); });
+      dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('active'); handleFiles(e.dataTransfer.files); });
+      dropZone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+      function handleFiles(files) {
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp'];
+        for (let f of files) {
+          if (validTypes.includes(f.type)) {
+            images.push(f);
+            const reader = new FileReader();
+            reader.onload = (e) => addPreview(f.name, e.target.result);
+            reader.readAsDataURL(f);
+          }
+        }
+        controls.classList.remove('hidden');
+        processBtn.disabled = images.length === 0;
+      }
+
+      function addPreview(name, src) {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-xl overflow-hidden shadow-sm border';
+        div.innerHTML = `
+          <img src="${src}" alt="${name}" class="w-full h-32 object-cover">
+          <div class="p-2">
+            <p class="text-xs text-gray-600 truncate" title="${name}">${name}</p>
+            <p class="text-xs text-gray-400 mt-1"><span class="file-size">${formatBytes(src.length * 0.75)}</span></p>
+          </div>`;
+        previewGrid.appendChild(div);
+      }
+
+      function formatBytes(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / 1048576).toFixed(1) + ' MB';
+      }
+
+      // Process
+      processBtn.addEventListener('click', async () => {
+        progressSection.classList.remove('hidden');
+        const format = formatSelect.value;
+        const quality = parseInt(qualitySlider.value) / 100;
+        const maxWidth = parseInt(widthInput.value) || null;
+        const maxHeight = parseInt(heightInput.value) || null;
+        processedImages = [];
+
+        for (let i = 0; i < images.length; i++) {
+          statusText.textContent = 'Processing ' + (i + 1) + ' of ' + images.length;
+          progressBar.style.width = ((i / images.length) * 100) + '%';
+          progressLabel.textContent = Math.round((i / images.length) * 100) + '%';
+
+          const result = await processImage(images[i], format, quality, maxWidth, maxHeight);
+          if (result) processedImages.push(result);
+        }
+
+        progressBar.style.width = '100%';
+        progressLabel.textContent = '100%';
+        statusText.textContent = 'Complete! ' + processedImages.length + ' images processed.';
+        downloadAllBtn.disabled = false;
+      });
+
+      async function processImage(file, format, quality, maxWidth, maxHeight) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              let w = img.width, h = img.height;
+              if (maxWidth && w > maxWidth) { h = h * maxWidth / w; w = maxWidth; }
+              if (maxHeight && h > maxHeight) { w = w * maxHeight / h; h = maxHeight; }
+              canvas.width = w; canvas.height = h;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              canvas.toBlob((blob) => {
+                if (blob) resolve({ blob, name: file.name.replace(/\.[^.]+$/, '.' + format), url: URL.createObjectURL(blob) });
+                else resolve(null);
+              }, 'image/' + format, quality);
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Download All
+      downloadAllBtn.addEventListener('click', () => {
+        processedImages.forEach((img, i) => {
+          const a = document.createElement('a');
+          a.href = img.url;
+          a.download = img.name || ('image-' + (i + 1) + '.' + formatSelect.value);
+          a.click();
+        });
+      });
+
+      // Clear
+      clearBtn.addEventListener('click', () => {
+        images = []; processedImages = [];
+        previewGrid.innerHTML = '';
+        controls.classList.add('hidden');
+        progressSection.classList.add('hidden');
+        processBtn.disabled = true;
+        downloadAllBtn.disabled = true;
+        progressBar.style.width = '0%';
+        fileInput.value = '';
+      });
+    })();
   </script>
-  <script src="renderer.js"></script>
 </body>
 </html>

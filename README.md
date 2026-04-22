@@ -1,146 +1,147 @@
 # ImageFlow Pro 🖼️
 
-**專業批量圖片處理工具** - 快速壓縮、調整大小、轉換格式，完全本地運行！
+**Professional batch image processing tool** - Compress, resize, and convert images locally with full privacy protection.
 
-## ✨ 功能特點
+## ✨ Features
 
-### 🚀 核心功能
-- **批量處理** - 一次處理數百張圖片
-- **智能壓縮** - 減少文件大小，保持質量
-- **格式轉換** - JPG、PNG、WEBP、GIF 互轉
-- **尺寸調整** - 自定義寬高或按比例縮放
-- **保持質量** - 可調節壓縮級別
+### 🚀 Core Features
+- **Batch Processing** - Process hundreds of images at once
+- **Smart Compression** - Reduce file size while maintaining quality
+- **Format Conversion** - Convert between JPG, PNG, WEBP, GIF, BMP
+- **Resize** - Custom dimensions or proportional scaling
+- **Quality Control** - Adjustable compression levels
 
-### 🛡️ 安全隱私
-- ✅ **完全本地運行** - 不上傳任何數據
-- ✅ **無需網絡** - 離線使用
-- ✅ **無需帳號** - 開箱即用
-- ✅ **代碼保護** - 非開源，保護知識產權
+### 🛡️ Privacy & Security
+- ✅ **100% Local** - No data uploaded
+- ✅ **No Internet Required** - Fully offline
+- ✅ **No Account Needed** - Ready to use immediately
+- ✅ **Code Protected** - Proprietary license
 
-### 💰 商業模式
-- **免費版** - 可處理最多100張圖片
-- **捐贈解鎖** - 一次性捐贈，解鎖無限使用
-- **建議捐贈** - $10-$50（根據使用價值）
+### 💰 Business Model
+- **Free Tier** - Process up to 100 images
+- **Donation Unlock** - One-time donation for unlimited use
+- **Suggested Donation** - $10-$50 (based on usage value)
+- **Donate at**: [Buy Me a Coffee](https://buymeacoffee.com/jieyangjunq)
 
-## 📥 下載安裝
+## 📥 Download & Install
 
 ### Windows
-1. 下載 `ImageFlow-Pro-Setup-1.0.0.exe`
-2. 雙擊運行安裝程序
-3. 按照提示完成安裝
+1. Download `ImageFlow-Pro-Setup-1.0.0.exe`
+2. Double-click to run installer
+3. Follow setup instructions
 
 ### macOS
-1. 下載 `ImageFlow-Pro-1.0.0.dmg`
-2. 打開dmg文件
-3. 將應用拖到Applications文件夾
+1. Download `ImageFlow-Pro-1.0.0.dmg`
+2. Open the DMG file
+3. Drag app to Applications folder
 
 ### Linux
-1. 下載 `ImageFlow-Pro-1.0.0.AppImage`
-2. 添加執行權限：`chmod +x ImageFlow-Pro-1.0.0.AppImage`
-3. 雙擊運行
+1. Download `ImageFlow-Pro-1.0.0.AppImage`
+2. Add execute permission: `chmod +x ImageFlow-Pro-1.0.0.AppImage`
+3. Double-click to run
 
-## 🎯 使用指南
+## 🎯 Usage Guide
 
-### 基本使用
-1. **添加圖片** - 拖放或點擊瀏覽
-2. **設置選項** - 選擇處理參數
-3. **選擇輸出** - 指定保存位置
-4. **開始處理** - 一鍵批量處理
+### Quick Start
+1. **Add Images** - Drag & drop or browse files
+2. **Configure Options** - Select processing parameters
+3. **Choose Output** - Specify save location
+4. **Start Processing** - One-click batch processing
 
-### 處理選項
-- **格式**：JPG、PNG、WEBP
-- **質量**：1-100%（可調節）
-- **尺寸**：自定義寬高或保持比例
-- **輸出**：原文件夾或自定義位置
+### Processing Options
+- **Format**: JPG, PNG, WEBP
+- **Quality**: 1-100% (adjustable)
+- **Dimensions**: Custom or maintain aspect ratio
+- **Output**: Original folder or custom location
 
-## 🔓 捐贈解鎖
+## 🔓 Donation Unlock
 
-### 為什麼要捐贈？
-- 支持持續開發和更新
-- 解鎖無限處理能力
-- 獲得優先技術支持
-- 幫助開發更多功能
+### Why Donate?
+- Support ongoing development
+- Unlock unlimited processing
+- Get priority technical support
+- Shape future feature development
 
-### 如何捐贈？
-1. 訪問我們的捐贈頁面
-2. 選擇捐贈金額
-3. 收到許可證密鑰
-4. 在應用中激活
+### How to Donate
+1. Visit [Buy Me a Coffee](https://buymeacoffee.com/jieyangjunq)
+2. Select donation amount
+3. Receive license key
+4. Activate in the application
 
-### 捐贈福利
-- 🎁 **永久授權** - 終身使用
-- 🔄 **免費更新** - 所有未來版本
-- ⚡ **優先支持** - 快速響應
-- 💡 **功能建議** - 影響開發方向
+### Donation Benefits
+- 🎁 **Lifetime License** - One-time payment, permanent use
+- 🔄 **Free Updates** - All future versions included
+- ⚡ **Priority Support** - Fast response time
+- 💡 **Feature Requests** - Influence development roadmap
 
-## 🛠️ 技術規格
+## 🛠️ Technical Specifications
 
-### 系統要求
-- **操作系統**：Windows 10+ / macOS 10.14+ / Linux
-- **內存**：4GB RAM（推薦8GB）
-- **存儲**：100MB 可用空間
-- **處理器**：現代雙核處理器
+### System Requirements
+- **OS**: Windows 10+ / macOS 10.14+ / Linux
+- **RAM**: 4GB minimum (8GB recommended)
+- **Storage**: 100MB free space
+- **CPU**: Modern dual-core processor
 
-### 支持格式
-- **輸入**：JPG、JPEG、PNG、WEBP、GIF
-- **輸出**：JPG、PNG、WEBP
-- **元數據**：保留EXIF信息
+### Supported Formats
+- **Input**: JPG, JPEG, PNG, WEBP, GIF, BMP
+- **Output**: JPG, PNG, WEBP
+- **Metadata**: EXIF data preserved
 
-## 📊 性能表現
+## 📊 Performance
 
-### 處理速度
-- **小圖片**（<1MB）：~50張/秒
-- **中圖片**（1-5MB）：~20張/秒  
-- **大圖片**（>5MB）：~5張/秒
+### Processing Speed
+- **Small Images** (<1MB): ~50 images/sec
+- **Medium Images** (1-5MB): ~20 images/sec
+- **Large Images** (>5MB): ~5 images/sec
 
-### 壓縮效果
-- **高質量**（90%）：大小減少30-50%
-- **中等質量**（70%）：大小減少50-70%
-- **高壓縮**（50%）：大小減少70-90%
+### Compression Results
+- **High Quality** (90%): 30-50% size reduction
+- **Medium Quality** (70%): 50-70% size reduction
+- **High Compression** (50%): 70-90% size reduction
 
-## 🤝 支持與反饋
+## 🤝 Support & Feedback
 
-### 問題報告
-1. 檢查是否最新版本
-2. 查看常見問題解答
-3. 通過郵件聯繫支持
+### Report Issues
+1. Check if you're on the latest version
+2. Review known issues
+3. Contact support via email
 
-### 功能請求
-我們歡迎功能建議！請通過郵件發送您的想法。
+### Feature Requests
+We welcome feature suggestions! Send your ideas via email.
 
-### 常見問題
-**Q: 免費版有什麼限制？**
-A: 免費版可處理最多100張圖片，之後需要捐贈解鎖。
+### FAQ
+**Q: What limits does the free version have?**
+A: The free version processes up to 100 images. Donation unlocks unlimited use.
 
-**Q: 數據安全嗎？**
-A: 完全安全！所有處理都在本地計算機進行，不上傳任何數據。
+**Q: Is my data secure?**
+A: Completely! All processing is done locally on your computer. No data is uploaded.
 
-**Q: 支持批量處理多少張圖片？**
-A: 理論上無限制，但建議一次不超過1000張以保證性能。
+**Q: How many images can I process at once?**
+A: Unlimited, but we recommend no more than 1,000 at a time for optimal performance.
 
-**Q: 如何獲得技術支持？**
-A: 捐贈用戶獲得優先支持，免費用戶可通過郵件獲得基礎支持。
+**Q: How do I get technical support?**
+A: Donors get priority support. Free users get basic email support.
 
-## 📄 許可協議
+## 📄 License
 
-ImageFlow Pro 是專有軟件。未經許可，禁止：
-- 反向工程
-- 修改或分發
-- 商業用途（需商業許可）
+ImageFlow Pro is proprietary software. Without a license, the following are prohibited:
+- Reverse engineering
+- Modification or redistribution
+- Commercial use (requires commercial license)
 
-## 🏆 為什麼選擇 ImageFlow Pro？
+## 🏆 Why ImageFlow Pro?
 
-| 特性 | ImageFlow Pro | 在線工具 | 專業軟件 |
-|------|---------------|----------|----------|
-| **隱私安全** | ✅ 完全本地 | ❌ 上傳數據 | ✅ 本地 |
-| **使用成本** | 💰 捐贈模式 | 🆓 免費 | 💸 昂貴 |
-| **易用性** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
-| **功能豐富** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **處理速度** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
+| Feature | ImageFlow Pro | Online Tools | Professional Software |
+|---------|--------------|--------------|----------------------|
+| **Privacy** | ✅ 100% Local | ❌ Upload Data | ✅ Local |
+| **Cost** | 💰 Donation | 🆓 Free | 💸 Expensive |
+| **Ease of Use** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| **Features** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Speed** | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
 
 ---
 
-**立即下載，開始高效處理您的圖片！** 🚀
+**Download now and start processing your images efficiently!** 🚀
 
-*最後更新：2026年4月15日*
-*版本：1.0.0*
+*Last updated: April 2026*
+*Version: 1.0.0*
